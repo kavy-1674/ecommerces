@@ -1,0 +1,486 @@
+@extends('admin.layouts.app')
+
+@section('content')
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+    .form-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+    .form-card:hover {
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+    }
+    .form-card-header {
+        background: linear-gradient(135deg, #dc2626, #b91c1c);
+        color: white;
+        padding: 1rem;
+        border-radius: 12px 12px 0 0;
+    }
+    .input-group {
+        position: relative;
+    }
+    .input-group input,
+    .input-group textarea,
+    .input-group select {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+    .input-group input:focus,
+    .input-group textarea:focus,
+    .input-group select:focus {
+        outline: none;
+        border-color: #dc2626;
+        box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+    }
+    .btn-primary {
+        background: linear-gradient(135deg, #dc2626, #b91c1c);
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+    }
+    .image-upload-area {
+        border: 2px dashed #d1d5db;
+        border-radius: 8px;
+        padding: 2rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    .image-upload-area:hover {
+        border-color: #dc2626;
+        background-color: #fef2f2;
+    }
+    .tag-input {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        padding: 0.5rem;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        min-height: 50px;
+    }
+    .tag {
+        background: #dc2626;
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .tag-remove {
+        cursor: pointer;
+        font-weight: bold;
+    }
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 2rem;
+        padding: 2rem;
+    }
+    .full-width {
+        grid-column: 1 / -1;
+    }
+</style>
+    <!-- Main Content -->
+    <div class="flex justify-end px-4 sm:px-6 lg:px-8 py-8 mt-16" id="mainContent">
+        <div class="w-full max-w-4xl transition-all duration-300" id="formContainer">
+        <form id="product-form" class="space-y-6">
+            <!-- Basic Information Grid -->
+            <div class="grid-container">
+                <!-- Product Name -->
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <h3 class="text-lg font-semibold">
+                            <i class="fas fa-tag mr-2"></i>Product Name
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="input-group">
+                            <input type="text" placeholder="Enter product name" class="w-full">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product SKU -->
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <h3 class="text-lg font-semibold">
+                            <i class="fas fa-barcode mr-2"></i>Product SKU
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="input-group">
+                            <input type="text" placeholder="Enter SKU code" class="w-full">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category -->
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <h3 class="text-lg font-semibold">
+                            <i class="fas fa-folder mr-2"></i>Category
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="input-group">
+                            <select class="w-full">
+                                <option value="">Select category</option>
+                                <option value="electronics">Electronics</option>
+                                <option value="clothing">Clothing</option>
+                                <option value="books">Books</option>
+                                <option value="home">Home & Garden</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Brand -->
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <h3 class="text-lg font-semibold">
+                            <i class="fas fa-copyright mr-2"></i>Brand
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="input-group">
+                            <input type="text" placeholder="Enter brand name" class="w-full">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pricing Grid -->
+            <div class="grid-container">
+                <!-- Regular Price -->
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <h3 class="text-lg font-semibold">
+                            <i class="fas fa-dollar-sign mr-2"></i>Regular Price
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="input-group">
+                            <input type="number" placeholder="0.00" step="0.01" class="w-full">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sale Price -->
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <h3 class="text-lg font-semibold">
+                            <i class="fas fa-percentage mr-2"></i>Sale Price
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="input-group">
+                            <input type="number" placeholder="0.00" step="0.01" class="w-full">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stock Quantity -->
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <h3 class="text-lg font-semibold">
+                            <i class="fas fa-boxes mr-2"></i>Stock Quantity
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="input-group">
+                            <input type="number" placeholder="Enter stock quantity" class="w-full">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weight -->
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <h3 class="text-lg font-semibold">
+                            <i class="fas fa-weight-hanging mr-2"></i>Weight (kg)
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="input-group">
+                            <input type="number" placeholder="0.00" step="0.01" class="w-full">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Images Grid -->
+            <div class="grid-container">
+                <!-- Main Image -->
+                <div class="form-card full-width">
+                    <div class="form-card-header">
+                        <h3 class="text-lg font-semibold">
+                            <i class="fas fa-image mr-2"></i>Product Images
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <!-- Main Image Upload -->
+                            <div class="image-upload-area">
+                                <i class="fas fa-camera text-4xl text-gray-400 mb-4"></i>
+                                <p class="text-sm text-gray-600">Main Image</p>
+                                <input type="file" class="hidden" accept="image/*">
+                            </div>
+                            <!-- Additional Images -->
+                            <div class="image-upload-area">
+                                <i class="fas fa-images text-4xl text-gray-400 mb-4"></i>
+                                <p class="text-sm text-gray-600">Image 2</p>
+                                <input type="file" class="hidden" accept="image/*">
+                            </div>
+                            <div class="image-upload-area">
+                                <i class="fas fa-images text-4xl text-gray-400 mb-4"></i>
+                                <p class="text-sm text-gray-600">Image 3</p>
+                                <input type="file" class="hidden" accept="image/*">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Description Grid -->
+            <div class="grid-container">
+                <!-- Short Description -->
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <h3 class="text-lg font-semibold">
+                            <i class="fas fa-align-left mr-2"></i>Short Description
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="input-group">
+                            <textarea rows="4" placeholder="Brief product description..." class="w-full"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Long Description -->
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <h3 class="text-lg font-semibold">
+                            <i class="fas fa-file-alt mr-2"></i>Detailed Description
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="input-group">
+                            <textarea rows="6" placeholder="Detailed product description..." class="w-full"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tags and SEO Grid -->
+            <div class="grid-container">
+                <!-- Tags -->
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <h3 class="text-lg font-semibold">
+                            <i class="fas fa-tags mr-2"></i>Product Tags
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="tag-input" id="tagInput">
+                            <input type="text" placeholder="Add tags..." class="flex-1 border-none outline-none">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEO Title -->
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <h3 class="text-lg font-semibold">
+                            <i class="fas fa-search mr-2"></i>SEO Title
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="input-group">
+                            <input type="text" placeholder="SEO optimized title" class="w-full">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Meta Description -->
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <h3 class="text-lg font-semibold">
+                            <i class="fas fa-info-circle mr-2"></i>Meta Description
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="input-group">
+                            <textarea rows="3" placeholder="SEO meta description..." class="w-full"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shipping Grid -->
+            <div class="grid-container">
+                <!-- Shipping Class -->
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <h3 class="text-lg font-semibold">
+                            <i class="fas fa-shipping-fast mr-2"></i>Shipping Class
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="input-group">
+                            <select class="w-full">
+                                <option value="">Select shipping class</option>
+                                <option value="standard">Standard</option>
+                                <option value="express">Express</option>
+                                <option value="overnight">Overnight</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dimensions -->
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <h3 class="text-lg font-semibold">
+                            <i class="fas fa-ruler-combined mr-2"></i>Dimensions (cm)
+                        </h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-3 gap-2">
+                            <input type="number" placeholder="Length" class="w-full">
+                            <input type="number" placeholder="Width" class="w-full">
+                            <input type="number" placeholder="Height" class="w-full">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex justify-center space-x-4 pt-8">
+                <button type="button" class="px-8 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors">
+                    <i class="fas fa-times mr-2"></i>Cancel
+                </button>
+                <button type="submit" class="btn-primary px-8 py-3">
+                    <i class="fas fa-plus mr-2"></i>Add Product
+                </button>
+            </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+                // Sidebar state management
+                let sidebarOpen = false;
+        
+        // Function to handle sidebar toggle
+        function handleSidebarToggle(isOpen) {
+            sidebarOpen = isOpen;
+            const formContainer = document.getElementById('formContainer');
+            const mainContent = document.getElementById('mainContent');
+            
+            if (isOpen) {
+                // Sidebar is open - adjust form position
+                mainContent.classList.add('ml-64'); // Add margin for sidebar
+                formContainer.classList.add('max-w-3xl'); // Reduce form width
+                formContainer.classList.remove('max-w-4xl');
+            } else {
+                // Sidebar is closed - expand form
+                mainContent.classList.remove('ml-64');
+                formContainer.classList.remove('max-w-3xl');
+                formContainer.classList.add('max-w-4xl');
+            }
+        }
+        
+        // Listen for sidebar toggle events (you can trigger this from your sidebar)
+        window.addEventListener('message', function(event) {
+            if (event.data.type === 'sidebarToggle') {
+                handleSidebarToggle(event.data.isOpen);
+            }
+        });
+        
+        // Initialize based on current sidebar state
+        // You can set this based on your sidebar's initial state
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if sidebar is initially open (you can modify this logic)
+            const initialSidebarState = localStorage.getItem('sidebarOpen') === 'true';
+            handleSidebarToggle(initialSidebarState);
+        });
+
+        // Tag input functionality
+        const tagInput = document.getElementById('tagInput');
+        const tagInputField = tagInput.querySelector('input');
+        const tags = [];
+
+        tagInputField.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && this.value.trim()) {
+                e.preventDefault();
+                addTag(this.value.trim());
+                this.value = '';
+            }
+        });
+
+        function addTag(text) {
+            if (tags.includes(text)) return;
+            
+            tags.push(text);
+            const tag = document.createElement('div');
+            tag.className = 'tag';
+            tag.innerHTML = `
+                ${text}
+                <span class="tag-remove" onclick="removeTag(this, '${text}')">&times;</span>
+            `;
+            tagInput.insertBefore(tag, tagInputField);
+        }
+
+        function removeTag(element, text) {
+            const index = tags.indexOf(text);
+            if (index > -1) {
+                tags.splice(index, 1);
+            }
+            element.parentElement.remove();
+        }
+
+        // Image upload functionality
+        document.querySelectorAll('.image-upload-area').forEach(area => {
+            const input = area.querySelector('input[type="file"]');
+            
+            area.addEventListener('click', () => input.click());
+            
+            input.addEventListener('change', function(e) {
+                if (this.files && this.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        area.innerHTML = `
+                            <img src="${e.target.result}" class="w-full h-32 object-cover rounded-lg">
+                            <p class="text-sm text-gray-600 mt-2">Image uploaded</p>
+                        `;
+                    };
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+        });
+
+        // Form submission
+        document.getElementById('product-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Add your form submission logic here
+            alert('Product added successfully!');
+        });
+    </script>
+@endsection
