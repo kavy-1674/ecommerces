@@ -19,7 +19,8 @@ COPY . .
 
 # Set Apache document root to public
 ENV APACHE_DOCUMENT_ROOT /var/www/public
-RUN sed -ri -e 's!/var/www/html!/var/www/public!g' /etc/apache2/sites-available/000-default.conf
+RUN sed -ri -e 's!/var/www/html!/var/www/public!g' /etc/apache2/sites-available/000-default.conf \
+ && echo '<Directory /var/www/public>\n\tAllowOverride All\n</Directory>' >> /etc/apache2/apache2.conf
 
 # Install Laravel dependencies
 RUN composer install --no-dev --optimize-autoloader
