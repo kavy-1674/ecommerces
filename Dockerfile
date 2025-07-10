@@ -8,11 +8,20 @@ RUN apt-get update && apt-get install -y \
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-COPY . /var/www/html
+# Copy code to /var/www instead of /var/www/html
+COPY . /var/www
 
-WORKDIR /var/www/html
+# Set working dir
+WORKDIR /var/www
 
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html/storage
+# Set public as document root
+ENV APACHE_DOCUMENT_ROOT /var/www/public
+
+# Update Apache config
+RUN sed -ri -e 's!/var/www/html!/var/www/public!g' /etc/apache2/sites-available/000-default.conf
+
+# Set permissions
+RUN chown -R www-data:www-data /var/www \
+    && chmod -R 755 /var/www/storage
 
 EXPOSE 80
